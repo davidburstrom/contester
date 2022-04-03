@@ -24,7 +24,7 @@ allprojects {
             useJUnitPlatform()
         }
 
-        group = "com.github.davidburstrom.contester"
+        group = "io.github.davidburstrom.contester"
         version = "0.1.0-alpha01"
 
         plugins.whenPluginAdded {
@@ -51,7 +51,7 @@ allprojects {
                     pitestVersion.set("1.7.5")
                     junit5PluginVersion.set("0.15")
                     timestampedReports.set(false)
-                    targetClasses.set(setOf("com.github.davidburstrom.contester.*"))
+                    targetClasses.set(setOf("io.github.davidburstrom.contester.*"))
                     threads.set(4)
                     failWhenNoMutations.set(false)
                     mutators.set(listOf("DEFAULTS"))
