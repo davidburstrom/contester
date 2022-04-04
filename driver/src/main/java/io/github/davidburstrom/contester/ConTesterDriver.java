@@ -381,6 +381,21 @@ public final class ConTesterDriver {
    */
   // TODO: Throw any uncaught errors?
   public static void join(final Thread thread) {
+    join(thread, STANDARD_TIMEOUT_MS, TimeUnit.MILLISECONDS);
+  }
+
+  /**
+   * Waits for a thread to finish executing.
+   *
+   * <p>All its breakpoints will be disabled and if it is currently suspended, it will be
+   * automatically resumed.
+   *
+   * @param thread A thread, registered or unregistered, different from the driver thread.
+   * @param timeout A duration.
+   * @param timeUnit The time unit of the given timeout.
+   */
+  // TODO: Throw any uncaught errors?
+  public static void join(final Thread thread, long timeout, TimeUnit timeUnit) {
     checkRegistered(thread);
 
     final DriverData driverData = DRIVER_REGISTRY.get(Thread.currentThread());
@@ -394,7 +409,7 @@ public final class ConTesterDriver {
     }
 
     try {
-      thread.join(STANDARD_TIMEOUT_MS);
+      thread.join(timeUnit.toMillis(timeout));
     } catch (InterruptedException e) {
       throw new RuntimeException(e);
     }
