@@ -261,9 +261,10 @@ public final class ConTesterDriver {
         }
 
         if (thread.getState() == Thread.State.TERMINATED) {
-          final Throwable uncaughtThrowable = getUncaughtThrowable(thread);
-          if (uncaughtThrowable != null) {
-            throw new AssertionError(thread + " threw an uncaught exception", uncaughtThrowable);
+          final Optional<Throwable> uncaughtThrowable = getUncaughtThrowable(thread);
+          if (uncaughtThrowable.isPresent()) {
+            throw new AssertionError(
+                thread + " threw an uncaught exception", uncaughtThrowable.get());
           } else {
             throw new AssertionError(thread + " has terminated");
           }
@@ -349,9 +350,9 @@ public final class ConTesterDriver {
     }
 
     if (thread.getState() == Thread.State.TERMINATED) {
-      final Throwable uncaughtThrowable = getUncaughtThrowable(thread);
-      if (uncaughtThrowable != null) {
-        throw new AssertionError(thread + " threw an uncaught exception", uncaughtThrowable);
+      final Optional<Throwable> uncaughtThrowable = getUncaughtThrowable(thread);
+      if (uncaughtThrowable.isPresent()) {
+        throw new AssertionError(thread + " threw an uncaught exception", uncaughtThrowable.get());
       }
     }
   }
@@ -420,9 +421,9 @@ public final class ConTesterDriver {
       throw new AssertionError(thread.getName() + " is still alive");
     }
 
-    final Throwable uncaughtThrowable = getUncaughtThrowable(thread);
-    if (uncaughtThrowable != null) {
-      throw new AssertionError(thread + " threw an uncaught exception", uncaughtThrowable);
+    final Optional<Throwable> uncaughtThrowable = getUncaughtThrowable(thread);
+    if (uncaughtThrowable.isPresent()) {
+      throw new AssertionError(thread + " threw an uncaught exception", uncaughtThrowable.get());
     }
   }
 
@@ -459,7 +460,7 @@ public final class ConTesterDriver {
    * @param thread A registered thread, different from the driver thread.
    * @return The uncaught throwable or null if none was thrown.
    */
-  public static Throwable getUncaughtThrowable(final Thread thread) {
+  public static Optional<Throwable> getUncaughtThrowable(final Thread thread) {
     checkRegistered(thread);
 
     if (thread.isAlive()) {
@@ -622,8 +623,8 @@ public final class ConTesterDriver {
     private String breakpointId;
     private final Semaphore semaphore = new Semaphore(0);
 
-    public Throwable getUncaughtThrowable() {
-      return uncaughtThrowable;
+    public Optional<Throwable> getUncaughtThrowable() {
+      return Optional.ofNullable(uncaughtThrowable);
     }
 
     public void setUncaughtThrowable(Throwable throwable) {

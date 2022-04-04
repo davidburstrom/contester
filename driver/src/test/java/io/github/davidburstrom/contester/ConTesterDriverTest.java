@@ -16,8 +16,6 @@ import static io.github.davidburstrom.contester.ConTesterDriver.waitForBreakpoin
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -29,7 +27,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-@SuppressWarnings("ThrowableNotThrown")
 class ConTesterDriverTest {
 
   @AfterEach
@@ -238,15 +235,15 @@ class ConTesterDriverTest {
     start(thread);
     thread.join();
     Thread.setDefaultUncaughtExceptionHandler(null);
-    assertNotNull(getUncaughtThrowable(thread));
+    assertTrue(getUncaughtThrowable(thread).isPresent());
   }
 
   @Test
-  void canGetNullThrowableFromRegisteredThread() {
+  void canGetEmptyOptionalThrowableFromRegisteredThread() {
     final Thread thread = thread(() -> {});
     start(thread);
     join(thread);
-    assertNull(getUncaughtThrowable(thread));
+    assertFalse(getUncaughtThrowable(thread).isPresent());
   }
 
   @Test
