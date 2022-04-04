@@ -164,7 +164,10 @@ public final class ConTesterDriver {
     thread.setUncaughtExceptionHandler(
         (t, e) -> {
           threadData.setUncaughtThrowable(e);
-          installedExceptionHandler.uncaughtException(t, e);
+          // Only call through if there was a custom exception handler installed
+          if (!installedExceptionHandler.equals(t.getThreadGroup())) {
+            installedExceptionHandler.uncaughtException(t, e);
+          }
         });
   }
 

@@ -239,6 +239,21 @@ class ConTesterDriverTest {
   }
 
   @Test
+  void threadGroupDoesNotHandleUncaughtException() throws InterruptedException {
+    AtomicBoolean visited = new AtomicBoolean();
+    Thread.setDefaultUncaughtExceptionHandler((t, e) -> visited.set(true));
+    final Thread thread =
+        thread(
+            () -> {
+              throw new RuntimeException();
+            });
+    start(thread);
+    thread.join();
+    Thread.setDefaultUncaughtExceptionHandler(null);
+    assertFalse(visited.get());
+  }
+
+  @Test
   void canGetEmptyOptionalThrowableFromRegisteredThread() {
     final Thread thread = thread(() -> {});
     start(thread);
