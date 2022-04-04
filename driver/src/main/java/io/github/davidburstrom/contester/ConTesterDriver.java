@@ -48,7 +48,7 @@ import java.util.stream.Collectors;
 public final class ConTesterDriver {
 
   /** Standard timeout, in milliseconds, for blocking APIs. */
-  public static final long STANDARD_TIMEOUT_MS = 1000;
+  public static final long STANDARD_TIMEOUT_MS = 10_000;
 
   private static final Map<Thread, DriverData> DRIVER_REGISTRY =
       Collections.synchronizedMap(new WeakHashMap<>());
