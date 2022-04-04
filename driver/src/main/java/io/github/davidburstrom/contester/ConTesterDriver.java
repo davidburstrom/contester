@@ -307,7 +307,12 @@ public final class ConTesterDriver {
    * @param timeUnit The time unit of the given timeout.
    */
   public static void waitForBlockedOrTerminated(Thread thread, long timeout, TimeUnit timeUnit) {
+    if (thread.getState() == Thread.State.NEW) {
+      throw new IllegalArgumentException("Cannot wait for unstarted thread");
+    }
+
     Thread.State state;
+
     final long endTime = System.nanoTime() + timeUnit.toNanos(timeout);
     do {
       // TODO: Handle the case where the thread hits a breakpoint. Should they be disabled while

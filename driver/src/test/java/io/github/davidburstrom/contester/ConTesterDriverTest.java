@@ -11,6 +11,7 @@ import static io.github.davidburstrom.contester.ConTesterDriver.runUntilBlockedO
 import static io.github.davidburstrom.contester.ConTesterDriver.start;
 import static io.github.davidburstrom.contester.ConTesterDriver.thread;
 import static io.github.davidburstrom.contester.ConTesterDriver.visitBreakpoint;
+import static io.github.davidburstrom.contester.ConTesterDriver.waitForBlockedOrTerminated;
 import static io.github.davidburstrom.contester.ConTesterDriver.waitForBreakpoint;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -363,6 +364,14 @@ class ConTesterDriverTest {
     runToBreakpoint(thread, "id");
     runUntilBlockedOrTerminated(thread);
     join(thread);
+  }
+
+  @Test
+  void waitForBlockedOrTerminatedMustUseStartedThread() {
+    final Thread thread = thread(() -> {});
+    final IllegalArgumentException exception =
+        assertThrows(IllegalArgumentException.class, () -> waitForBlockedOrTerminated(thread));
+    assertEquals("Cannot wait for unstarted thread", exception.getMessage());
   }
 
   @Test
