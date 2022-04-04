@@ -80,8 +80,8 @@ minification/obfuscation phase. See `proguard-rules.pro`.
 
 ### Benchmarks
 
-To verify that the production runtime is not impacted by the presence of breakpoints, run the
-`./gradlew jmh` tasks. Sample output from JDK 1.8 on an M1 Max:
+To verify that the production runtime is not impacted by defined breakpoints when the driver is not
+present on the classpath, run the `./gradlew jmh` tasks. Sample output from JDK 1.8 on an M1 Max:
 
 ```
 Benchmark                                         Mode           Score  Units
