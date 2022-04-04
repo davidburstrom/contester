@@ -69,7 +69,7 @@ class ConTesterDriverTest {
     final AssertionError assertionError =
         assertThrows(
             AssertionError.class, () -> runToBreakpoint(thread, "dummy", 1, TimeUnit.MILLISECONDS));
-    assertTrue(assertionError.getMessage().contains("Breakpoint never hit"));
+    assertEquals("Breakpoint wasn't hit within 1 milliseconds", assertionError.getMessage());
     thread.interrupt();
     join(thread);
   }

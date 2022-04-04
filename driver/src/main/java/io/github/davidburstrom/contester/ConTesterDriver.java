@@ -271,7 +271,11 @@ public final class ConTesterDriver {
         }
       }
       if (threadData.getSuspended() == null) {
-        throw new AssertionError("Breakpoint never hit");
+        throw new AssertionError(
+            "Breakpoint wasn't hit within "
+                + timeout
+                + " "
+                + timeUnit.toString().toLowerCase(Locale.ROOT));
       } else if (!threadData.getSuspended().equals(id)) {
         throw new AssertionError(
             "Thread suspended on unexpected breakpoint '" + threadData.getSuspended());
