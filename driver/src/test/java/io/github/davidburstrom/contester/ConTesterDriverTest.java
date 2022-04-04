@@ -226,7 +226,7 @@ class ConTesterDriverTest {
   }
 
   @Test
-  void canGetThrowableFromRegisteredThread() {
+  void canGetThrowableFromRegisteredThread() throws InterruptedException {
     // set no-op handler, so that the test is not spamming stderr.
     Thread.setDefaultUncaughtExceptionHandler((t, e) -> {});
     final Thread thread =
@@ -235,7 +235,7 @@ class ConTesterDriverTest {
               throw new RuntimeException();
             });
     start(thread);
-    join(thread);
+    thread.join();
     Thread.setDefaultUncaughtExceptionHandler(null);
     assertNotNull(getUncaughtThrowable(thread));
   }
@@ -255,13 +255,14 @@ class ConTesterDriverTest {
   }
 
   @Test
-  void cannotGetThrowableFromNonTerminatedThread() {
-    final Thread thread = thread(() -> {});
+  void cannotGetThrowableFromLiveThread() {
+    final Thread thread = thread(() -> visitBreakpoint("id"));
+    runToBreakpoint(thread, "id");
     assertThrows(IllegalStateException.class, () -> getUncaughtThrowable(thread));
   }
 
   @Test
-  void registeredThreadCallsThroughToCustomUncaughtExceptionHandler() {
+  void registeredThreadCallsThroughToCustomUncaughtExceptionHandler() throws InterruptedException {
     final Thread thread =
         new Thread(
             () -> {
@@ -270,7 +271,7 @@ class ConTesterDriverTest {
     final AtomicBoolean visited = new AtomicBoolean();
     thread.setUncaughtExceptionHandler((t, e) -> visited.set(true));
     start(thread);
-    join(thread);
+    thread.join();
     assertTrue(visited.get());
   }
 

@@ -1,13 +1,11 @@
 package io.github.davidburstrom.contester.examples;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 import io.github.davidburstrom.contester.ConTesterDriver;
 import org.junit.jupiter.api.Test;
 
 class ModificationTest {
 
-  private void runTest(Modification obj) throws InterruptedException {
+  private void runTest(Modification obj) {
     Thread resetter = ConTesterDriver.thread(obj::reset);
     Thread printer = ConTesterDriver.thread(obj::print);
 
@@ -17,11 +15,10 @@ class ModificationTest {
         resetter); // without the fix, resetter will run reset() in full
     ConTesterDriver.runUntilBlockedOrTerminated(
         printer); // without the fix, printer will dereference a null member
-    assertNull(ConTesterDriver.getUncaughtThrowable(printer));
   }
 
   @Test
-  void broken() throws InterruptedException {
+  void broken() {
     try {
       runTest(new Modification.Broken());
     } catch (AssertionError ignored) {
@@ -30,7 +27,7 @@ class ModificationTest {
   }
 
   @Test
-  void fixed() throws InterruptedException {
+  void fixed() {
     runTest(new Modification.Fixed());
   }
 }

@@ -379,7 +379,6 @@ public final class ConTesterDriver {
    *
    * @param thread A thread, registered or unregistered, different from the driver thread.
    */
-  // TODO: Throw any uncaught errors?
   public static void join(final Thread thread) {
     join(thread, STANDARD_TIMEOUT_MS, TimeUnit.MILLISECONDS);
   }
@@ -394,7 +393,6 @@ public final class ConTesterDriver {
    * @param timeout A duration.
    * @param timeUnit The time unit of the given timeout.
    */
-  // TODO: Throw any uncaught errors?
   public static void join(final Thread thread, long timeout, TimeUnit timeUnit) {
     checkRegistered(thread);
 
@@ -415,6 +413,11 @@ public final class ConTesterDriver {
     }
     if (thread.isAlive()) {
       throw new AssertionError(thread.getName() + " is still alive");
+    }
+
+    final Throwable uncaughtThrowable = getUncaughtThrowable(thread);
+    if (uncaughtThrowable != null) {
+      throw new AssertionError(thread + " threw an uncaught exception", uncaughtThrowable);
     }
   }
 
@@ -454,9 +457,8 @@ public final class ConTesterDriver {
   public static Throwable getUncaughtThrowable(final Thread thread) {
     checkRegistered(thread);
 
-    final Thread.State state = thread.getState();
-    if (state != Thread.State.TERMINATED) {
-      throw new IllegalStateException(thread + " state is " + state + ", must be terminated");
+    if (thread.isAlive()) {
+      throw new IllegalStateException(thread + " is alive, must be terminated");
     }
 
     return requireNonNull(findThreadData(thread).orElse(null)).getUncaughtThrowable();

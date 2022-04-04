@@ -1,18 +1,16 @@
 package io.github.davidburstrom.contester.examples;
 
-import static io.github.davidburstrom.contester.ConTesterDriver.getUncaughtThrowable;
 import static io.github.davidburstrom.contester.ConTesterDriver.join;
 import static io.github.davidburstrom.contester.ConTesterDriver.resume;
 import static io.github.davidburstrom.contester.ConTesterDriver.runToBreakpoint;
 import static io.github.davidburstrom.contester.ConTesterDriver.runUntilBlockedOrTerminated;
 import static io.github.davidburstrom.contester.ConTesterDriver.thread;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 
 class UnderflowTest {
 
-  private void runTest(Underflow obj) throws InterruptedException {
+  private void runTest(Underflow obj) {
     final Thread producer = thread(obj::produce);
 
     runToBreakpoint(producer, "produce");
@@ -22,11 +20,10 @@ class UnderflowTest {
     resume(producer);
 
     join(consumer);
-    assertNull(getUncaughtThrowable(consumer));
   }
 
   @Test
-  void broken() throws InterruptedException {
+  void broken() {
     try {
       runTest(new Underflow.Broken());
     } catch (AssertionError ignored) {
@@ -35,7 +32,7 @@ class UnderflowTest {
   }
 
   @Test
-  void fixed() throws InterruptedException {
+  void fixed() {
     runTest(new Underflow.Fixed());
   }
 }
