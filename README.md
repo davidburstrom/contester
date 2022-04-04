@@ -1,4 +1,4 @@
-# ConTester – Concurrency Tester for Java
+# ConTester – Concurrency Tester for JVM languages
 
 ## Overview
 

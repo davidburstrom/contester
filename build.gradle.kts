@@ -90,6 +90,47 @@ allprojects {
                     outputs.cacheIf { true }
                 }
             }
+            if (this is MavenPublishPlugin) {
+                configure<PublishingExtension> {
+                    repositories {
+                        maven {
+                            name = "MavenCentral"
+                            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+                            credentials {
+                                username = project.properties["ossrh.username"] as String
+                                password = project.properties["ossrh.password"] as String
+                            }
+                        }
+                    }
+                }
+                afterEvaluate {
+                    configure<PublishingExtension> {
+                        publications.named<MavenPublication>("maven") {
+                            pom {
+                                url.set("https://github.com/davidburstrom/contester")
+                                licenses {
+                                    license {
+                                        name.set("The Apache License, Version 2.0")
+                                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                                    }
+                                }
+                                developers {
+                                    developer {
+                                        id.set("davidburstrom")
+                                        name.set("David Burström")
+                                        email.set("david.burstrom@gmail.com")
+                                    }
+                                }
+                                scm {
+                                    connection.set("scm:git:git://github.com/davidburstrom/contester.git")
+                                    developerConnection.set("scm:git:ssh://github.com/davidburstrom/contester.git")
+                                    url.set("https://github.com/davidburstrom/contester")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

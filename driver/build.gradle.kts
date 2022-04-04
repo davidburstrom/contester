@@ -1,6 +1,7 @@
 plugins {
     `java-library`
     `maven-publish`
+    signing
 }
 
 dependencies {
@@ -19,6 +20,14 @@ publishing {
             from(
                 components["java"]
             )
+            pom {
+                name.set("ConTester Driver")
+                description.set("Concurrency Tester for JVM languages. This artifact is used to drive threads from a test suite.")
+            }
         }
     }
+}
+
+signing {
+    sign(publishing.publications["maven"])
 }
