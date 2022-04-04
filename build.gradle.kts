@@ -29,6 +29,15 @@ allprojects {
 
         plugins.whenPluginAdded {
             if (this is JavaPlugin) {
+                /*
+                 * Automatically format all Java sources prior to usage.
+                 */
+                project.tasks.withType<SourceTask>().configureEach {
+                    if (this.name != "spotlessJavaApply") {
+                        dependsOn("spotlessJavaApply")
+                    }
+                }
+
                 configure<JavaPluginExtension> {
                     sourceCompatibility = JavaVersion.VERSION_1_8
                     targetCompatibility = JavaVersion.VERSION_1_8
