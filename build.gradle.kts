@@ -138,6 +138,13 @@ allprojects {
                             }
                         }
                     }
+                    tasks.named("publishMavenPublicationToMavenCentralRepository") {
+                        doFirst {
+                            if (gradle.startParameter.isParallelProjectExecutionEnabled) {
+                                throw AssertionError("Must execute serially, otherwise Nexus can create multiple staging repos")
+                            }
+                        }
+                    }
                 }
             }
         }
