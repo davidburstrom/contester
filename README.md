@@ -44,8 +44,8 @@ Add the following dependencies to the project:
 
 ```groovy
 dependencies {
-    implementation("io.github.davidburstrom.contester:contester-breakpoint:0.1.0-alpha01")
-    testImplementation("io.github.davidburstrom.contester:contester-driver:0.1.0-alpha01")
+    implementation("io.github.davidburstrom.contester:contester-breakpoint:0.1.0-alpha02")
+    testImplementation("io.github.davidburstrom.contester:contester-driver:0.1.0-alpha02")
 }
 ```
 
