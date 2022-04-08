@@ -81,14 +81,23 @@ minification/obfuscation phase. See `proguard-rules.pro`.
 ### Benchmarks
 
 To verify that the production runtime is not impacted by defined breakpoints when the driver is not
-present on the classpath, run the `./gradlew jmh` tasks. Sample output from JDK 1.8 on an M1 Max:
+present on the classpath, run the `./gradlew jmh` tasks. This tests both repeated calls to
+`defineBreakpoint` as well as first time invocations.
+
+Sample output from JDK 1.8 on an M1 Max:
 
 ```
-Benchmark                                         Mode           Score  Units
-WithDriverBenchmark.withBreakpoint                thrpt  109101587.440  ops/s
-WithDriverBenchmark.withConditionalBreakpoint     thrpt  109854616.334  ops/s
-WithDriverBenchmark.withoutBreakpoint             thrpt  465717746.227  ops/s
-WithoutDriverBenchmark.withBreakpoint             thrpt  457506448.191  ops/s
-WithoutDriverBenchmark.withConditionalBreakpoint  thrpt  462785179.461  ops/s
-WithoutDriverBenchmark.withoutBreakpoint          thrpt  453185836.467  ops/s
+Benchmark                                                   Mode           Score  Units
+WithDriverBenchmark.withBreakpoint                          thrpt  109101587.440  ops/s
+WithDriverBenchmark.withConditionalBreakpoint               thrpt  109854616.334  ops/s
+WithDriverBenchmark.withoutBreakpoint                       thrpt  465717746.227  ops/s
+WithDriverBenchmark.withBreakpointSingleShot                ss            ≈ 10⁻⁶  s/op
+WithDriverBenchmark.withConditionalBreakpointSingleShot     ss            ≈ 10⁻⁶  s/op
+WithDriverBenchmark.withoutBreakpointSingleShot             ss            ≈ 10⁻⁵  s/op
+WithoutDriverBenchmark.withBreakpoint                       thrpt  457506448.191  ops/s
+WithoutDriverBenchmark.withConditionalBreakpoint            thrpt  462785179.461  ops/s
+WithoutDriverBenchmark.withoutBreakpoint                    thrpt  453185836.467  ops/s
+WithoutDriverBenchmark.withBreakpointSingleShot             ss            ≈ 10⁻⁶  s/op
+WithoutDriverBenchmark.withConditionalBreakpointSingleShot  ss            ≈ 10⁻⁶  s/op
+WithoutDriverBenchmark.withoutBreakpointSingleShot          ss            ≈ 10⁻⁵  s/op
 ```
