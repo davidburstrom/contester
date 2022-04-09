@@ -25,7 +25,7 @@ allprojects {
         }
 
         group = "io.github.davidburstrom.contester"
-        version = "0.1.0-alpha02"
+        version = "0.1.0"
 
         plugins.whenPluginAdded {
             if (this is JavaPlugin) {
