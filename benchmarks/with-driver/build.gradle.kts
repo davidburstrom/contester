@@ -6,4 +6,7 @@ plugins {
 dependencies {
     implementation(project(":breakpoint"))
     implementation(project(":driver"))
+    jmh("org.openjdk.jmh:jmh-core:1.35")
+    jmh("org.openjdk.jmh:jmh-generator-annprocess:1.35")
+    jmh("org.openjdk.jmh:jmh-generator-bytecode:1.35")
 }
