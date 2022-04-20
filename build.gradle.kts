@@ -64,7 +64,7 @@ allprojects {
                     targetClasses.set(setOf("io.github.davidburstrom.contester.*"))
                     threads.set(4)
                     failWhenNoMutations.set(false)
-                    mutators.set(listOf("DEFAULTS", "EXTENDED_ALL"))
+                    mutators.set(listOf("DEFAULTS", "EXTENDED"))
                     timeoutConstInMillis.set(200)
 
                     /* Run Pitest always, if it has a threshold set. */

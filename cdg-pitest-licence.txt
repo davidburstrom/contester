@@ -1,7 +1,7 @@
 #Licence file for pitest extensions
-#Wed Apr 20 09:10:18 BST 2022
+#Wed Apr 20 09:42:15 BST 2022
 expires=20/04/2024
 keyVersion=1
-signature=SaACU752pcvZvok5aupy1sTRqjrHwKfsQeZOAt3Ac8cWY0IR847+HGExK3gewQ0jMbJPuXEJl65RSKDOJlNRtroobIM+HKK8mq0JG7DkqbhfDIssfTSqLStQ8W4HXXtPM9aRoPe9ra8aw73Or3zAaW4pEp0y6E4ZPfIW9EuMPo0\=
-packages=\  io.github.davidburstrom.contester.*
+signature=BcLfNpWop3in7BmsGvUZ6WsFHyaYuDlSYsl0mFMmWYrk1dD/HH7OVY4+ryN5uk7wwRnBX3f3sFJozfa0FTsBssLzmgAPlG67uDcGsb38sfGRQUzrY2du080uzrAZA4BWRV6jl/oPZep0FYNb9uyKrNgX+RdXUwZKPyXp4t/qdsg\=
+packages=io.github.davidburstrom.contester.*
 type=OSSS
