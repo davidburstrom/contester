@@ -82,6 +82,7 @@ allprojects {
                 }
                 tasks.named<PitestTask>("pitest").configure {
                     inputs.property("src", file("src/test"))
+                    inputs.file(rootProject.file("cdg-pitest-licence.txt"))
                     onlyIf {
                         (inputs.properties["src"] as File).exists()
                     }
