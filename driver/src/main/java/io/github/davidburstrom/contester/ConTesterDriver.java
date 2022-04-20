@@ -113,6 +113,8 @@ public final class ConTesterDriver {
 
     waitForBreakpoint(thread, id, timeout, timeUnit);
 
+    disableBreakpoint(thread, id);
+
     enabledBreakpoints.forEach(enabledId -> enableBreakpoint(thread, enabledId));
   }
 

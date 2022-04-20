@@ -191,6 +191,30 @@ class ConTesterDriverTest {
   }
 
   @Test
+  void runToBreakpointDisablesBreakpointAfterwards() {
+    final Thread thread =
+        thread(
+            () -> {
+              visitBreakpoint("id");
+            });
+    runToBreakpoint(thread, "id");
+    enableBreakpoint(thread, "id");
+    join(thread);
+  }
+
+  @Test
+  void runToBreakpointHandlesAlreadyEnabledBreakpoint() {
+    final Thread thread =
+        thread(
+            () -> {
+              visitBreakpoint("id");
+            });
+    enableBreakpoint(thread, "id");
+    runToBreakpoint(thread, "id");
+    join(thread);
+  }
+
+  @Test
   void runToBreakpointReenablesBreakpoints() {
     AtomicBoolean check = new AtomicBoolean(true);
     final Thread thread =
