@@ -64,7 +64,7 @@ allprojects {
                     targetClasses.set(setOf("io.github.davidburstrom.contester.*"))
                     threads.set(4)
                     failWhenNoMutations.set(false)
-                    mutators.set(listOf("DEFAULTS"))
+                    mutators.set(listOf("DEFAULTS", "EXTENDED_ALL"))
                     timeoutConstInMillis.set(200)
 
                     /* Run Pitest always, if it has a threshold set. */
@@ -75,6 +75,10 @@ allprojects {
                             dependsOn("pitest")
                         }
                     }
+                }
+                dependencies {
+                    "pitest"("com.groupcdg.pitest:extended-mutators:0.0.9")
+                    "pitest"("com.groupcdg.pitest:pitest-accelerator-junit5:0.0.3")
                 }
                 tasks.named<PitestTask>("pitest").configure {
                     inputs.property("src", file("src/test"))
