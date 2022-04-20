@@ -70,12 +70,12 @@ with each individual test worker thread.
 
 ## Production performance
 
-Even though the production code invokes `ConTesterBreakpoint.breakpoint`, there is no performance
+Even though the production code invokes `ConTesterBreakpoint.defineBreakpoint`, there is no performance
 penalty, if the `ConTesterDriver` class is missing on the runtime classpath. The JVM will optimise
 away the calls.
 
 If ProGuard/R8 is used (for example in an Android development environment), it is also possible to
-completely eliminate the `ConTesterBreakpoint.breakpoint` invocations in the
+completely eliminate the `ConTesterBreakpoint.defineBreakpoint` invocations in the
 minification/obfuscation phase. See `proguard-rules.pro`.
 
 ### Benchmarks
