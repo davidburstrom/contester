@@ -2,7 +2,7 @@
 
 ## Overview
 
-ConTester is tool that enables precise testing of Java concurrency, by providing granular control of
+ConTester is a tool that enables precise testing of Java concurrency, by providing granular control of
 thread execution. It is quite similar to how one would use a debugger to set breakpoints in the
 production code, which makes it easy to learn and apply. Thanks to JVM runtime optimizations, the
 library has zero performance impact in production.
