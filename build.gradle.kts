@@ -77,8 +77,8 @@ allprojects {
                     }
                 }
                 dependencies {
-                    "pitest"("com.groupcdg.pitest:extended-mutators:0.0.9")
-                    "pitest"("com.groupcdg.pitest:pitest-accelerator-junit5:0.0.3")
+                    "pitest"("com.groupcdg.pitest:extended-mutators:0.1.1")
+                    "pitest"("com.groupcdg.pitest:pitest-accelerator-junit5:0.1.0")
                 }
                 tasks.named<PitestTask>("pitest").configure {
                     inputs.property("src", file("src/test"))
