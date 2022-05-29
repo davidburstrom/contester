@@ -101,3 +101,14 @@ WithoutDriverBenchmark.withBreakpointSingleShot             ss            ≈ 10
 WithoutDriverBenchmark.withConditionalBreakpointSingleShot  ss            ≈ 10⁻⁶  s/op
 WithoutDriverBenchmark.withoutBreakpointSingleShot          ss            ≈ 10⁻⁵  s/op
 ```
+
+## Releases
+
+### 0.1.0
+
+- Initial release
+
+### 0.2.0
+
+- Fixes a bug where runToBreakpoint doesn't reset the temporary breakpoint
+- Bumps build dependencies
