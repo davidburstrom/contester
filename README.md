@@ -102,6 +102,17 @@ WithoutDriverBenchmark.withConditionalBreakpointSingleShot  ss            ≈ 10
 WithoutDriverBenchmark.withoutBreakpointSingleShot          ss            ≈ 10⁻⁵  s/op
 ```
 
+## Security
+
+The signatures of the release artifact can be verified with [this pubkey](https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xf067a2fd751ae3e4).
+
+```
+pub   ed25519 2022-04-03 [SC]
+      C0612048F3393B80B22639B4F067A2FD751AE3E4
+uid   David Burström <david.burstrom@gmail.com>
+sub   cv25519 2022-04-03 [E]
+```
+
 ## Releases
 
 ### 0.1.0
