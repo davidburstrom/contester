@@ -7,6 +7,8 @@ plugins {
     id("com.github.ben-manes.versions") version "0.42.0"
 }
 
+ext["jmhVersion"] = "1.36"
+
 allprojects {
     beforeEvaluate {
         repositories {

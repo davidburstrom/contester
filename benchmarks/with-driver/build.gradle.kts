@@ -3,10 +3,12 @@ plugins {
     id("me.champeau.jmh") version "0.6.6"
 }
 
+val jmhVersion: String by project
+
 dependencies {
     implementation(project(":breakpoint"))
     implementation(project(":driver"))
-    jmh("org.openjdk.jmh:jmh-core:1.35")
-    jmh("org.openjdk.jmh:jmh-generator-annprocess:1.35")
-    jmh("org.openjdk.jmh:jmh-generator-bytecode:1.35")
+    jmh("org.openjdk.jmh:jmh-core:$jmhVersion")
+    jmh("org.openjdk.jmh:jmh-generator-annprocess:$jmhVersion")
+    jmh("org.openjdk.jmh:jmh-generator-bytecode:$jmhVersion")
 }
