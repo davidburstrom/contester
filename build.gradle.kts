@@ -17,7 +17,7 @@ allprojects {
         spotless {
             kotlinGradle {
                 target("*.gradle.kts")
-                ktlint("0.45.1")
+                ktlint("0.47.1")
             }
         }
 
