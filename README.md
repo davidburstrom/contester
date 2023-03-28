@@ -121,5 +121,5 @@ sub   cv25519 2022-04-03 [E]
 
 ### 0.2.0
 
-- Fixes a bug where runToBreakpoint doesn't reset the temporary breakpoint
+- Fixes a bug where `runToBreakpoint` doesn't reset the temporary breakpoint
 - Bumps build dependencies
