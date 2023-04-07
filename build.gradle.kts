@@ -4,7 +4,7 @@ import info.solidsoft.gradle.pitest.PitestTask
 plugins {
     id("com.diffplug.spotless") version "6.18.0"
     id("info.solidsoft.pitest") version "1.9.11" apply false
-    id("com.github.ben-manes.versions") version "0.42.0"
+    id("com.github.ben-manes.versions") version "0.46.0"
 }
 
 val pitestMainVersion = "1.12.0"
