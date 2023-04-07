@@ -73,54 +73,6 @@ allprojects {
                     ruleSetConfig = resources.text.fromFile(rootProject.file("config/pmd/rulesets.xml"))
                 }
 
-                apply(plugin = "info.solidsoft.pitest")
-                configure<PitestPluginExtension> {
-                    pitestVersion.set(pitestMainVersion)
-                    junit5PluginVersion.set(pitestJUnit5PluginVersion)
-                    timestampedReports.set(false)
-                    targetClasses.set(setOf("io.github.davidburstrom.contester.*"))
-                    threads.set(4)
-                    failWhenNoMutations.set(false)
-                    mutators.set(listOf("DEFAULTS", "EXTENDED"))
-                    timeoutConstInMillis.set(200)
-
-                    /* Run Pitest always, if it has a threshold set. */
-                    if (ext.has("mutationThreshold")) {
-                        mutationThreshold.set(ext.get("mutationThreshold") as Int)
-
-                        tasks.named("build").configure {
-                            dependsOn("pitest")
-                        }
-                    }
-                }
-                dependencies {
-                    "pitest"("com.groupcdg.arcmutate:base:1.0.2")
-                    "pitest"("com.groupcdg.pitest:pitest-accelerator-junit5:1.0.4")
-                }
-                tasks.named<PitestTask>("pitest").configure {
-                    inputs.property("src", file("src/test"))
-                    inputs.file(rootProject.file("cdg-pitest-licence.txt"))
-                    onlyIf {
-                        (inputs.properties["src"] as File).exists()
-                    }
-
-                    /*
-                     * Carry over all system properties defined for test tasks into the Pitest tasks, except for the "junit"
-                     * ones, as they can interfere with test stability.
-                     */
-                    systemProperties(tasks.getByName<Test>("test").systemProperties.filterKeys {
-                        !it.contains(
-                            "junit"
-                        )
-                    })
-
-                    /*
-                     * Include a "pitest" system property to be able to run tests differently if necessary. Use sparingly!
-                     */
-                    systemProperty("pitest", "true")
-
-                    outputs.cacheIf { true }
-                }
             }
             if (this is MavenPublishPlugin) {
                 configure<PublishingExtension> {
@@ -168,6 +120,59 @@ allprojects {
                             }
                         }
                     }
+                }
+            }
+        }
+
+        afterEvaluate {
+            if (plugins.hasPlugin(JavaPlugin::class.java)) {
+                apply(plugin = "info.solidsoft.pitest")
+                configure<PitestPluginExtension> {
+                    pitestVersion.set(pitestMainVersion)
+                    junit5PluginVersion.set(pitestJUnit5PluginVersion)
+                    timestampedReports.set(false)
+                    targetClasses.set(setOf("io.github.davidburstrom.contester.*"))
+                    threads.set(4)
+                    failWhenNoMutations.set(false)
+                    mutators.set(listOf("DEFAULTS", "EXTENDED"))
+                    timeoutConstInMillis.set(200)
+
+                    /* Run Pitest always, if it has a threshold set. */
+                    if (ext.has("mutationThreshold")) {
+                        mutationThreshold.set(ext.get("mutationThreshold") as Int)
+
+                        tasks.named("build").configure {
+                            dependsOn("pitest")
+                        }
+                    }
+                }
+                dependencies {
+                    "pitest"("com.groupcdg.arcmutate:base:1.0.2")
+                    "pitest"("com.groupcdg.pitest:pitest-accelerator-junit5:1.0.4")
+                }
+                tasks.named<PitestTask>("pitest").configure {
+                    inputs.property("src", file("src/test"))
+                    inputs.file(rootProject.file("cdg-pitest-licence.txt"))
+                    onlyIf {
+                        (inputs.properties["src"] as File).exists()
+                    }
+
+                    /*
+                     * Carry over all system properties defined for test tasks into the Pitest tasks, except for the "junit"
+                     * ones, as they can interfere with test stability.
+                     */
+                    systemProperties(tasks.getByName<Test>("test").systemProperties.filterKeys {
+                        !it.contains(
+                            "junit"
+                        )
+                    })
+
+                    /*
+                     * Include a "pitest" system property to be able to run tests differently if necessary. Use sparingly!
+                     */
+                    systemProperty("pitest", "true")
+
+                    outputs.cacheIf { true }
                 }
             }
         }
