@@ -11,10 +11,6 @@ val pitestMainVersion = "1.12.0"
 val pitestJUnit5PluginVersion = "1.1.2"
 ext["jmhVersion"] = "1.36"
 
-repositories {
-    mavenCentral()
-}
-
 configurations {
     register("dependencyUpdates")
 }
@@ -26,10 +22,6 @@ dependencies {
 
 allprojects {
     beforeEvaluate {
-        repositories {
-            mavenCentral()
-        }
-
         apply(plugin = "com.diffplug.spotless")
         spotless {
             kotlinGradle {

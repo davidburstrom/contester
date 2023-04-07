@@ -6,6 +6,15 @@ if (!JavaVersion.current().isJava11Compatible) {
     )
 }
 
+@Suppress("UnstableApiUsage")
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+}
+
 include(":benchmarks:with-driver")
 include(":benchmarks:without-driver")
 include(":breakpoint")
