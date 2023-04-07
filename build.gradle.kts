@@ -7,7 +7,22 @@ plugins {
     id("com.github.ben-manes.versions") version "0.42.0"
 }
 
+val pitestMainVersion = "1.7.5"
+val pitestJUnit5PluginVersion = "0.15"
 ext["jmhVersion"] = "1.36"
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    register("dependencyUpdates")
+}
+
+dependencies {
+    "dependencyUpdates"("org.pitest:pitest-junit5-plugin:$pitestJUnit5PluginVersion")
+    "dependencyUpdates"("org.pitest:pitest:$pitestMainVersion")
+}
 
 allprojects {
     beforeEvaluate {
@@ -60,8 +75,8 @@ allprojects {
 
                 apply(plugin = "info.solidsoft.pitest")
                 configure<PitestPluginExtension> {
-                    pitestVersion.set("1.7.5")
-                    junit5PluginVersion.set("0.15")
+                    pitestVersion.set(pitestMainVersion)
+                    junit5PluginVersion.set(pitestJUnit5PluginVersion)
                     timestampedReports.set(false)
                     targetClasses.set(setOf("io.github.davidburstrom.contester.*"))
                     threads.set(4)
