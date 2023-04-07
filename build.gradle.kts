@@ -7,8 +7,8 @@ plugins {
     id("com.github.ben-manes.versions") version "0.42.0"
 }
 
-val pitestMainVersion = "1.7.5"
-val pitestJUnit5PluginVersion = "0.15"
+val pitestMainVersion = "1.12.0"
+val pitestJUnit5PluginVersion = "1.1.2"
 ext["jmhVersion"] = "1.36"
 
 repositories {
@@ -95,7 +95,7 @@ allprojects {
                 }
                 dependencies {
                     "pitest"("com.groupcdg.pitest:extended-mutators:0.1.1")
-                    "pitest"("com.groupcdg.pitest:pitest-accelerator-junit5:0.1.0")
+                    "pitest"("com.groupcdg.pitest:pitest-accelerator-junit5:1.0.4")
                 }
                 tasks.named<PitestTask>("pitest").configure {
                     inputs.property("src", file("src/test"))
