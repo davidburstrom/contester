@@ -65,7 +65,7 @@ allprojects {
                 }
 
             }
-            if (this is MavenPublishPlugin) {
+            if (this is MavenPublishPlugin && project.properties["ossrh.username"] != null) {
                 configure<PublishingExtension> {
                     repositories {
                         maven {
