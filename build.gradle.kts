@@ -148,6 +148,12 @@ allprojects {
                         (inputs.properties["src"] as File).exists()
                     }
 
+                    javaLauncher.set(
+                        project.extensions.getByType<JavaToolchainService>().launcherFor {
+                            languageVersion.set(JavaLanguageVersion.of(8))
+                        }
+                    )
+
                     /*
                      * Carry over all system properties defined for test tasks into the Pitest tasks, except for the "junit"
                      * ones, as they can interfere with test stability.
