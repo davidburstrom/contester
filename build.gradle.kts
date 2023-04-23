@@ -139,7 +139,7 @@ allprojects {
                 }
                 dependencies {
                     "pitest"("com.groupcdg.arcmutate:base:1.0.3")
-                    "pitest"("com.groupcdg.pitest:pitest-accelerator-junit5:1.0.4")
+                    "pitest"("com.groupcdg.pitest:pitest-accelerator-junit5:1.0.5")
                 }
                 tasks.named<PitestTask>("pitest").configure {
                     inputs.property("src", file("src/test"))
