@@ -7,7 +7,7 @@ plugins {
 ext.set("mutationThreshold", 80)
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
 }
 
 java {
