@@ -8,6 +8,7 @@ ext.set("mutationThreshold", 80)
 
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0-M1")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.0-M1")
 }
 
 java {
