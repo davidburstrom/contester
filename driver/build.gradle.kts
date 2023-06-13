@@ -24,8 +24,8 @@ publishing {
                 components["java"]
             )
             pom {
-                name.set("ConTester Driver")
-                description.set("Concurrency Tester for JVM languages. This artifact is used to drive threads from a test suite.")
+                name = "ConTester Driver"
+                description = "Concurrency Tester for JVM languages. This artifact is used to drive threads from a test suite."
             }
         }
     }

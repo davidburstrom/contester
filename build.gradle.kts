@@ -49,7 +49,7 @@ allprojects {
                 }
 
                 project.tasks.withType<JavaCompile> {
-                    options.release.set(8)
+                    options.release = 8
                 }
 
                 spotless {
@@ -82,24 +82,24 @@ allprojects {
                     configure<PublishingExtension> {
                         publications.named<MavenPublication>("maven") {
                             pom {
-                                url.set("https://github.com/davidburstrom/contester")
+                                url = "https://github.com/davidburstrom/contester"
                                 licenses {
                                     license {
-                                        name.set("The Apache License, Version 2.0")
-                                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                                        name = "The Apache License, Version 2.0"
+                                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
                                     }
                                 }
                                 developers {
                                     developer {
-                                        id.set("davidburstrom")
-                                        name.set("David Burström")
-                                        email.set("david.burstrom@gmail.com")
+                                        id = "davidburstrom"
+                                        name = "David Burström"
+                                        email = "david.burstrom@gmail.com"
                                     }
                                 }
                                 scm {
-                                    connection.set("scm:git:git://github.com/davidburstrom/contester.git")
-                                    developerConnection.set("scm:git:ssh://github.com/davidburstrom/contester.git")
-                                    url.set("https://github.com/davidburstrom/contester")
+                                    connection = "scm:git:git://github.com/davidburstrom/contester.git"
+                                    developerConnection = "scm:git:ssh://github.com/davidburstrom/contester.git"
+                                    url = "https://github.com/davidburstrom/contester"
                                 }
                             }
                         }
@@ -119,18 +119,18 @@ allprojects {
             if (plugins.hasPlugin(JavaPlugin::class.java)) {
                 apply(plugin = "info.solidsoft.pitest")
                 configure<PitestPluginExtension> {
-                    pitestVersion.set(pitestMainVersion)
-                    junit5PluginVersion.set(pitestJUnit5PluginVersion)
-                    timestampedReports.set(false)
-                    targetClasses.set(setOf("io.github.davidburstrom.contester.*"))
-                    threads.set(4)
-                    failWhenNoMutations.set(false)
-                    mutators.set(listOf("DEFAULTS", "EXTENDED"))
-                    timeoutConstInMillis.set(200)
+                    pitestVersion = pitestMainVersion
+                    junit5PluginVersion = pitestJUnit5PluginVersion
+                    timestampedReports = false
+                    targetClasses = setOf("io.github.davidburstrom.contester.*")
+                    threads = 4
+                    failWhenNoMutations = false
+                    mutators = listOf("DEFAULTS", "EXTENDED")
+                    timeoutConstInMillis = 200
 
                     /* Run Pitest always, if it has a threshold set. */
                     if (ext.has("mutationThreshold")) {
-                        mutationThreshold.set(ext.get("mutationThreshold") as Int)
+                        mutationThreshold = ext.get("mutationThreshold") as Int
 
                         tasks.named("build").configure {
                             dependsOn("pitest")
@@ -148,11 +148,9 @@ allprojects {
                         (inputs.properties["src"] as File).exists()
                     }
 
-                    javaLauncher.set(
-                        project.extensions.getByType<JavaToolchainService>().launcherFor {
-                            languageVersion.set(JavaLanguageVersion.of(8))
-                        }
-                    )
+                    javaLauncher = project.extensions.getByType<JavaToolchainService>().launcherFor {
+                        languageVersion = JavaLanguageVersion.of(8)
+                    }
 
                     /*
                      * Carry over all system properties defined for test tasks into the Pitest tasks, except for the "junit"

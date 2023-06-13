@@ -21,8 +21,8 @@ publishing {
                 components["java"]
             )
             pom {
-                name.set("ConTester Breakpoint")
-                description.set("Concurrency Tester for JVM languages. This artifact is used to defined breakpoints in production code.")
+                name = "ConTester Breakpoint"
+                description = "Concurrency Tester for JVM languages. This artifact is used to defined breakpoints in production code."
             }
         }
     }
