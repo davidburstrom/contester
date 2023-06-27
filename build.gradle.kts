@@ -7,7 +7,7 @@ plugins {
     id("com.github.ben-manes.versions") version "0.47.0"
 }
 
-val pitestMainVersion = "1.14.1"
+val pitestMainVersion = "1.14.2"
 val pitestJUnit5PluginVersion = "1.2.0"
 ext["jmhVersion"] = "1.36"
 
