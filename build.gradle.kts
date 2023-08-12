@@ -9,6 +9,7 @@ plugins {
 }
 
 val errorProneVersion = "2.21.1"
+val ktlintVersion = "0.50.0"
 val pitestMainVersion = "1.14.3"
 val pitestJUnit5PluginVersion = "1.2.0"
 ext["jmhVersion"] = "1.37"
@@ -20,6 +21,7 @@ configurations {
 dependencies {
     "dependencyUpdates"("org.pitest:pitest-junit5-plugin:$pitestJUnit5PluginVersion")
     "dependencyUpdates"("org.pitest:pitest:$pitestMainVersion")
+    "dependencyUpdates"("com.pinterest.ktlint:ktlint-bom:$ktlintVersion")
 }
 
 allprojects {
@@ -28,7 +30,7 @@ allprojects {
         spotless {
             kotlinGradle {
                 target("*.gradle.kts")
-                ktlint("0.50.0").editorConfigOverride(mapOf("ktlint_standard_trailing-comma-on-call-site" to "disabled"))
+                ktlint(ktlintVersion).editorConfigOverride(mapOf("ktlint_standard_trailing-comma-on-call-site" to "disabled"))
             }
         }
 
