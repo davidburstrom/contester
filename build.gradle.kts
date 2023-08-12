@@ -11,7 +11,7 @@ plugins {
 val errorProneVersion = "2.21.1"
 val pitestMainVersion = "1.14.3"
 val pitestJUnit5PluginVersion = "1.2.0"
-ext["jmhVersion"] = "1.36"
+ext["jmhVersion"] = "1.37"
 
 configurations {
     register("dependencyUpdates")
