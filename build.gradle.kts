@@ -26,7 +26,7 @@ allprojects {
         spotless {
             kotlinGradle {
                 target("*.gradle.kts")
-                ktlint("0.47.1")
+                ktlint("0.50.0").editorConfigOverride(mapOf("ktlint_standard_trailing-comma-on-call-site" to "disabled"))
             }
         }
 
