@@ -83,12 +83,12 @@
   <rule ref="category/java/errorprone.xml">
     <exclude name="AvoidDuplicateLiterals"/>
     <exclude name="AvoidLiteralsInIfCondition"/>
-    <exclude name="BeanMembersShouldSerialize"/>
     <exclude name="CallSuperFirst"/>
     <exclude name="CallSuperLast"/>
     <exclude name="CloseResource"/>
     <exclude name="DataflowAnomalyAnalysis"/>
     <exclude name="DoNotTerminateVM"/>
+    <exclude name="NonSerializableClass"/>
     <exclude name="NullAssignment"/>
     <exclude name="TestClassWithoutTestCases"/>
     <exclude name="UseProperClassLoader"/>
