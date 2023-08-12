@@ -5,8 +5,10 @@ plugins {
     id("com.diffplug.spotless") version "6.20.0"
     id("info.solidsoft.pitest") version "1.9.11" apply false
     id("com.github.ben-manes.versions") version "0.47.0"
+    id("net.ltgt.errorprone") version "3.1.0" apply false
 }
 
+val errorProneVersion = "2.21.1"
 val pitestMainVersion = "1.14.3"
 val pitestJUnit5PluginVersion = "1.2.0"
 ext["jmhVersion"] = "1.36"
@@ -50,6 +52,7 @@ allprojects {
 
                 project.tasks.withType<JavaCompile> {
                     options.release = 8
+                    options.compilerArgs.add("-Werror")
                 }
 
                 spotless {
@@ -168,6 +171,10 @@ allprojects {
                     systemProperty("pitest", "true")
 
                     outputs.cacheIf { true }
+                }
+                apply(plugin = "net.ltgt.errorprone")
+                dependencies {
+                    "errorprone"("com.google.errorprone:error_prone_core:$errorProneVersion")
                 }
             }
         }

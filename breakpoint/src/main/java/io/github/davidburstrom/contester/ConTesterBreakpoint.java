@@ -17,6 +17,7 @@ public class ConTesterBreakpoint {
       Class.forName("io.github.davidburstrom.contester.ConTesterDriver");
       isDriverPresent = true;
     } catch (ClassNotFoundException ignored) {
+      // the driver wasn't found
     }
     IS_DRIVER_PRESENT = isDriverPresent;
   }

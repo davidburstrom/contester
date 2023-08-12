@@ -1,7 +1,7 @@
 package io.github.davidburstrom.contester.examples;
 
 import io.github.davidburstrom.contester.ConTesterBreakpoint;
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.Semaphore;
 
@@ -18,7 +18,7 @@ public interface Underflow {
   void consume();
 
   class Broken implements Underflow {
-    Queue<Object> buffer = new LinkedList<>();
+    Queue<Object> buffer = new ArrayDeque<>();
 
     @Override
     public void produce() {
@@ -33,7 +33,7 @@ public interface Underflow {
   }
 
   class Fixed implements Underflow {
-    Queue<Object> buffer = new LinkedList<>();
+    Queue<Object> buffer = new ArrayDeque<>();
     Semaphore semaphore = new Semaphore(0);
 
     @Override
