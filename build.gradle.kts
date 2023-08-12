@@ -141,7 +141,7 @@ allprojects {
                     }
                 }
                 dependencies {
-                    "pitest"("com.groupcdg.arcmutate:base:1.1.2")
+                    "pitest"("com.groupcdg.arcmutate:base:1.1.3")
                     "pitest"("com.groupcdg.pitest:pitest-accelerator-junit5:1.0.6")
                 }
                 tasks.named<PitestTask>("pitest").configure {
