@@ -10,7 +10,7 @@ plugins {
 
 val errorProneVersion = "2.21.1"
 val ktlintVersion = "0.50.0"
-val pitestMainVersion = "1.14.3"
+val pitestMainVersion = "1.14.4"
 val pitestJUnit5PluginVersion = "1.2.0"
 ext["jmhVersion"] = "1.37"
 
