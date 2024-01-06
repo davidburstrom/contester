@@ -4,7 +4,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "ConTester"
+rootProject.name = "contester"
 
 if (!JavaVersion.current().isJava11Compatible) {
     throw GradleException(
