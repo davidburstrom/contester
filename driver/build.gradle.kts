@@ -4,7 +4,7 @@ plugins {
     signing
 }
 
-ext.set("mutationThreshold", 80)
+ext.set("mutationThreshold", 79)
 
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")

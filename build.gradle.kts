@@ -130,7 +130,7 @@ allprojects {
                     targetClasses = setOf("io.github.davidburstrom.contester.*")
                     threads = 4
                     failWhenNoMutations = false
-                    mutators = listOf("DEFAULTS", "EXTENDED")
+                    mutators = listOf("DEFAULTS")
                     timeoutConstInMillis = 200
 
                     /* Run Pitest always, if it has a threshold set. */
@@ -142,13 +142,8 @@ allprojects {
                         }
                     }
                 }
-                dependencies {
-                    "pitest"("com.groupcdg.arcmutate:base:1.2.2")
-                    "pitest"("com.groupcdg.pitest:pitest-accelerator-junit5:1.0.6")
-                }
                 tasks.named<PitestTask>("pitest").configure {
                     inputs.property("src", file("src/test"))
-                    inputs.file(rootProject.file("cdg-pitest-licence.txt"))
                     onlyIf {
                         (inputs.properties["src"] as File).exists()
                     }
