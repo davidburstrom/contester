@@ -123,3 +123,9 @@ sub   cv25519 2022-04-03 [E]
 
 - Fixes a bug where `runToBreakpoint` doesn't reset the temporary breakpoint
 - Bumps build dependencies
+
+## License
+
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+Copyright 2022-2024 David Burström.

@@ -60,6 +60,7 @@ allprojects {
                 spotless {
                     java {
                         googleJavaFormat()
+                        licenseHeaderFile(rootProject.file("config/license-header.txt"))                        
                     }
                 }
 
