@@ -6,12 +6,6 @@ pluginManagement {
 
 rootProject.name = "contester"
 
-if (!JavaVersion.current().isJava11Compatible) {
-    throw GradleException(
-        "The project requires JDK 11 or later to build. Current JDK is ${JavaVersion.current()}."
-    )
-}
-
 @Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
     repositories {
