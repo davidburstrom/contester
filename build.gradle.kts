@@ -43,6 +43,14 @@ allprojects {
 
         plugins.whenPluginAdded {
             if (this is JavaPlugin) {
+                configure<JavaPluginExtension> {
+                    toolchain {
+                        // Could theoretically be version 8, but it's not compatible with
+                        // ErrorProne. Therefore, the JavaCompile release option is used.
+                        languageVersion = JavaLanguageVersion.of(11);
+                    }
+                }
+
                 /*
                  * Automatically format all Java sources prior to usage.
                  */
