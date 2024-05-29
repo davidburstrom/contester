@@ -24,15 +24,16 @@ dependencies {
     "dependencyUpdates"("com.pinterest.ktlint:ktlint-bom:$ktlintVersion")
 }
 
+spotless {
+    kotlinGradle {
+        target("**/*.gradle.kts")
+        ktlint(ktlintVersion).editorConfigOverride(mapOf("ktlint_standard_trailing-comma-on-call-site" to "disabled"))
+    }
+}
+
 allprojects {
     beforeEvaluate {
         apply(plugin = "com.diffplug.spotless")
-        spotless {
-            kotlinGradle {
-                target("*.gradle.kts")
-                ktlint(ktlintVersion).editorConfigOverride(mapOf("ktlint_standard_trailing-comma-on-call-site" to "disabled"))
-            }
-        }
 
         tasks.withType(Test::class.java).configureEach {
             useJUnitPlatform()
@@ -47,7 +48,7 @@ allprojects {
                     toolchain {
                         // Could theoretically be version 8, but it's not compatible with
                         // ErrorProne. Therefore, the JavaCompile release option is used.
-                        languageVersion = JavaLanguageVersion.of(11);
+                        languageVersion = JavaLanguageVersion.of(11)
                     }
                 }
 
@@ -68,7 +69,7 @@ allprojects {
                 spotless {
                     java {
                         googleJavaFormat()
-                        licenseHeaderFile(rootProject.file("config/license-header.txt"))                        
+                        licenseHeaderFile(rootProject.file("config/license-header.txt"))
                     }
                 }
 
@@ -77,7 +78,6 @@ allprojects {
                     ruleSets = listOf()
                     ruleSetConfig = resources.text.fromFile(rootProject.file("config/pmd/rulesets.xml"))
                 }
-
             }
             if (this is MavenPublishPlugin && project.properties["ossrh.username"] != null) {
                 configure<PublishingExtension> {
@@ -165,11 +165,13 @@ allprojects {
                      * Carry over all system properties defined for test tasks into the Pitest tasks, except for the "junit"
                      * ones, as they can interfere with test stability.
                      */
-                    systemProperties(tasks.getByName<Test>("test").systemProperties.filterKeys {
-                        !it.contains(
-                            "junit"
-                        )
-                    })
+                    systemProperties(
+                        tasks.getByName<Test>("test").systemProperties.filterKeys {
+                            !it.contains(
+                                "junit"
+                            )
+                        }
+                    )
 
                     /*
                      * Include a "pitest" system property to be able to run tests differently if necessary. Use sparingly!
