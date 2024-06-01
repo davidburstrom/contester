@@ -8,7 +8,7 @@ plugins {
     id("net.ltgt.errorprone") version "3.1.0" apply false
 }
 
-val errorProneVersion = "2.27.1"
+val errorProneVersion = "2.28.0"
 val ktlintVersion = "1.2.1"
 val pitestMainVersion = "1.16.1"
 val pitestJUnit5PluginVersion = "1.2.1"
