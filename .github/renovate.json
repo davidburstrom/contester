@@ -3,5 +3,13 @@
   "extends": [
     "config:recommended"
   ],
+  "packageRules": [
+    {
+      "matchCategories": ["java"],
+      "constraints": {
+        "versions": ["21"]
+      }
+    }
+  ],
   "ignorePaths": []
 }
