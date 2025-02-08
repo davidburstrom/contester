@@ -158,7 +158,7 @@ allprojects {
                     }
 
                     javaLauncher = project.extensions.getByType<JavaToolchainService>().launcherFor {
-                        languageVersion = JavaLanguageVersion.of(8)
+                        languageVersion = JavaLanguageVersion.of(11)
                     }
 
                     /*
