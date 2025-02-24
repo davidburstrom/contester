@@ -11,7 +11,7 @@ plugins {
 val errorProneVersion = "2.36.0"
 val ktlintVersion = "1.5.0"
 val pitestMainVersion = "1.18.2"
-val pitestJUnit5PluginVersion = "1.2.1"
+val pitestJUnit5PluginVersion = "1.2.2"
 ext["jmhVersion"] = "1.37"
 
 configurations {
