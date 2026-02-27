@@ -2,7 +2,7 @@ import info.solidsoft.gradle.pitest.PitestPluginExtension
 import info.solidsoft.gradle.pitest.PitestTask
 
 plugins {
-    id("com.diffplug.spotless") version "7.0.4"
+    id("com.diffplug.spotless") version "7.2.1"
     id("info.solidsoft.pitest") version "1.15.0" apply false
     id("com.github.ben-manes.versions") version "0.52.0"
     id("net.ltgt.errorprone") version "4.4.0" apply false
