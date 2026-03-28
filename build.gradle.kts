@@ -12,6 +12,7 @@ val errorProneVersion = "2.48.0"
 val ktlintVersion = "1.8.0"
 val pitestMainVersion = "1.23.0"
 val pitestJUnit5PluginVersion = "1.2.3"
+val pmdVersion = "7.5.0"
 ext["jmhVersion"] = "1.37"
 
 configurations {
@@ -75,7 +76,7 @@ allprojects {
 
                 apply(plugin = "pmd")
                 configure<PmdExtension> {
-                    toolVersion = "7.5.0"
+                    toolVersion = pmdVersion
                     ruleSets = listOf()
                     ruleSetConfig = resources.text.fromFile(rootProject.file("config/pmd/rulesets.xml"))
                 }
