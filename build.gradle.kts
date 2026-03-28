@@ -12,7 +12,7 @@ val errorProneVersion = "2.48.0"
 val ktlintVersion = "1.8.0"
 val pitestMainVersion = "1.23.0"
 val pitestJUnit5PluginVersion = "1.2.3"
-val pmdVersion = "7.7.0"
+val pmdVersion = "7.23.0"
 ext["jmhVersion"] = "1.37"
 
 configurations {
