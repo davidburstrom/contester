@@ -48,7 +48,7 @@ allprojects {
                     toolchain {
                         // Could theoretically be version 8, but it's not compatible with
                         // ErrorProne. Therefore, the JavaCompile release option is used.
-                        languageVersion = JavaLanguageVersion.of(17)
+                        languageVersion = JavaLanguageVersion.of(21)
                     }
                 }
 
@@ -63,7 +63,7 @@ allprojects {
 
                 project.tasks.withType<JavaCompile> {
                     options.release = 8
-                    options.compilerArgs.add("-Werror")
+                    options.compilerArgs.addAll(listOf("-Werror", "-Xlint:-options"))
                 }
 
                 spotless {

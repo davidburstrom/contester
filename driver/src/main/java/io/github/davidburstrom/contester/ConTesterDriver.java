@@ -647,19 +647,19 @@ public final class ConTesterDriver {
     private String breakpointId;
     private final Semaphore semaphore = new Semaphore(0);
 
-    public Optional<Throwable> getUncaughtThrowable() {
+    Optional<Throwable> getUncaughtThrowable() {
       return Optional.ofNullable(uncaughtThrowable);
     }
 
-    public void setUncaughtThrowable(Throwable throwable) {
+    void setUncaughtThrowable(Throwable throwable) {
       this.uncaughtThrowable = throwable;
     }
 
-    public void setSuspended(String breakpointId) {
+    void setSuspended(String breakpointId) {
       this.breakpointId = breakpointId;
     }
 
-    public String getSuspended() {
+    String getSuspended() {
       return this.breakpointId;
     }
   }
