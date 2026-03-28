@@ -7,9 +7,9 @@
 
   <rule ref="category/java/bestpractices.xml">
     <exclude name="AvoidReassigningParameters"/>
-    <exclude name="JUnitAssertionsShouldIncludeMessage"/>
-    <exclude name="JUnitTestContainsTooManyAsserts"/>
-    <exclude name="JUnitTestsShouldIncludeAssert"/>
+    <exclude name="UnitTestAssertionsShouldIncludeMessage"/>
+    <exclude name="UnitTestContainsTooManyAsserts"/>
+    <exclude name="UnitTestShouldIncludeAssert"/>
     <!-- It is better to crash if a null is unexpected. -->
     <exclude name="LiteralsFirstInComparisons"/>
   </rule>
