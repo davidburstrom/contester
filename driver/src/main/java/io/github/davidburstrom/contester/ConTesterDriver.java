@@ -622,7 +622,7 @@ public final class ConTesterDriver {
   }
 
   /** Holds the data associated with a given driver thread, e.g. a test worker thread. */
-  private static class DriverData {
+  private static final class DriverData {
 
     private final Map<Thread, ThreadData> threadRegistry = new WeakHashMap<>();
     private final Map<String, Set<Thread>> enabledBreakpoints = new HashMap<>(4);
@@ -641,7 +641,7 @@ public final class ConTesterDriver {
     }
   }
 
-  private static class ThreadData {
+  private static final class ThreadData {
 
     private Throwable uncaughtThrowable;
     private String breakpointId;
