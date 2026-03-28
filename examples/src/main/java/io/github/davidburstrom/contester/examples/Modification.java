@@ -16,6 +16,7 @@
 package io.github.davidburstrom.contester.examples;
 
 import io.github.davidburstrom.contester.ConTesterBreakpoint;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Simulates an issue where one method is modifying a field while another method is referencing it,
@@ -49,25 +50,31 @@ public interface Modification {
   }
 
   class Fixed implements Modification {
-    final Object lock = new Object();
+    final ReentrantLock lock = new ReentrantLock();
     private Object member = new Object();
 
     @Override
     public void reset() {
       ConTesterBreakpoint.defineBreakpoint("reset");
-      synchronized (lock) {
+      lock.lock();
+      try {
         member = null;
+      } finally {
+        lock.unlock();
       }
     }
 
     @Override
     public void print() {
       /* this synchronized block is introduced during a bug fix, and is proven to work */
-      synchronized (lock) {
+      lock.lock();
+      try {
         if (member != null) {
           ConTesterBreakpoint.defineBreakpoint("print");
           System.out.println(member.getClass());
         }
+      } finally {
+        lock.unlock();
       }
     }
   }

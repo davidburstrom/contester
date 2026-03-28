@@ -75,7 +75,7 @@ allprojects {
 
                 apply(plugin = "pmd")
                 configure<PmdExtension> {
-                    toolVersion = "7.0.0"
+                    toolVersion = "7.5.0"
                     ruleSets = listOf()
                     ruleSetConfig = resources.text.fromFile(rootProject.file("config/pmd/rulesets.xml"))
                 }
