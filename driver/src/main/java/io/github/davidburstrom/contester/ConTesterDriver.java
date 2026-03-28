@@ -29,6 +29,8 @@ import java.util.WeakHashMap;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
@@ -59,7 +61,6 @@ import java.util.stream.Collectors;
  *       using {@link #join} and {@link #getUncaughtThrowable}.
  * </ol>
  */
-@SuppressWarnings("SynchronizationOnLocalVariableOrMethodParameter")
 public final class ConTesterDriver {
 
   /** Standard timeout, in milliseconds, for blocking APIs. */
@@ -67,6 +68,7 @@ public final class ConTesterDriver {
 
   private static final Map<Thread, DriverData> DRIVER_REGISTRY =
       Collections.synchronizedMap(new WeakHashMap<>());
+  private static final ReentrantLock DRIVER_REGISTRY_LOCK = new ReentrantLock();
 
   /** Prohibit instantiation */
   private ConTesterDriver() {}
@@ -271,11 +273,14 @@ public final class ConTesterDriver {
 
     final long endTime = System.nanoTime() + timeUnit.toNanos(timeout);
     final ThreadData threadData = driverData.getThreadRegistry().get(thread);
-    synchronized (threadData) {
+    threadData.lock.lock();
+    try {
+      Condition condition = threadData.lock.newCondition();
       while (threadData.getSuspended() == null && System.nanoTime() < endTime) {
 
         try {
-          threadData.wait(1);
+          //noinspection ResultOfMethodCallIgnored
+          condition.awaitNanos(1);
         } catch (InterruptedException e) {
           throw new RuntimeException(e);
         }
@@ -300,6 +305,8 @@ public final class ConTesterDriver {
         throw new AssertionError(
             "Thread suspended on unexpected breakpoint '" + threadData.getSuspended());
       }
+    } finally {
+      threadData.lock.unlock();
     }
   }
 
@@ -391,13 +398,16 @@ public final class ConTesterDriver {
   public static void resume(Thread thread) {
     final DriverData driverData = DRIVER_REGISTRY.get(Thread.currentThread());
     final ThreadData threadData = driverData.getThreadRegistry().get(thread);
-    synchronized (threadData) {
+    threadData.lock.lock();
+    try {
       if (threadData.getSuspended() != null) {
         threadData.setSuspended(null);
         threadData.semaphore.release();
       } else {
         throw new AssertionError("Thread is not suspended");
       }
+    } finally {
+      threadData.lock.unlock();
     }
   }
 
@@ -428,8 +438,11 @@ public final class ConTesterDriver {
 
     final DriverData driverData = DRIVER_REGISTRY.get(Thread.currentThread());
     final Map<String, Set<Thread>> enabledBreakpoints = driverData.getEnabledBreakpoints();
-    synchronized (enabledBreakpoints) {
+    driverData.lock.lock();
+    try {
       enabledBreakpoints.forEach((id, threads) -> threads.remove(thread));
+    } finally {
+      driverData.lock.unlock();
     }
 
     if (isSuspended(thread)) {
@@ -517,18 +530,23 @@ public final class ConTesterDriver {
     final Map<String, Set<Thread>> enabledBreakpoints = driverData.get().getEnabledBreakpoints();
     final ThreadData threadData = driverData.get().getThreadRegistry().get(Thread.currentThread());
     final boolean suspend;
-    synchronized (enabledBreakpoints) {
+    driverData.get().lock.lock();
+    try {
       final Set<Thread> set = enabledBreakpoints.get(id);
       if (set != null && set.contains(Thread.currentThread()) && condition.getAsBoolean()) {
-        synchronized (threadData) {
+        threadData.lock.lock();
+        try {
           suspend = true;
           threadData.setSuspended(id);
           // This can only be mutation tested by injecting a custom wait time in waitForBreakpoint
-          threadData.notifyAll();
+        } finally {
+          threadData.lock.unlock();
         }
       } else {
         suspend = false;
       }
+    } finally {
+      driverData.get().lock.unlock();
     }
     if (suspend) {
       try {
@@ -540,8 +558,11 @@ public final class ConTesterDriver {
   }
 
   private static DriverData getOrCreateDriverData() {
-    synchronized (DRIVER_REGISTRY) {
+    DRIVER_REGISTRY_LOCK.lock();
+    try {
       return DRIVER_REGISTRY.computeIfAbsent(Thread.currentThread(), t -> new DriverData());
+    } finally {
+      DRIVER_REGISTRY_LOCK.unlock();
     }
   }
 
@@ -550,12 +571,14 @@ public final class ConTesterDriver {
     if (DRIVER_REGISTRY.isEmpty()) {
       return Optional.empty();
     }
-
-    synchronized (DRIVER_REGISTRY) {
+    DRIVER_REGISTRY_LOCK.lock();
+    try {
       return DRIVER_REGISTRY.values().stream()
           .map(driverData -> driverData.getThreadRegistry().get(thread))
           .filter(Objects::nonNull)
           .findFirst();
+    } finally {
+      DRIVER_REGISTRY_LOCK.unlock();
     }
   }
 
@@ -564,12 +587,15 @@ public final class ConTesterDriver {
     if (DRIVER_REGISTRY.isEmpty()) {
       return Optional.empty();
     }
+    DRIVER_REGISTRY_LOCK.lock();
+    try {
 
-    synchronized (DRIVER_REGISTRY) {
       return DRIVER_REGISTRY.entrySet().stream()
           .filter(entry -> entry.getValue().getThreadRegistry().containsKey(thread))
           .findFirst()
           .map(Map.Entry::getValue);
+    } finally {
+      DRIVER_REGISTRY_LOCK.unlock();
     }
   }
 
@@ -602,8 +628,11 @@ public final class ConTesterDriver {
   private static boolean isSuspended(Thread thread) {
     final DriverData driverData = DRIVER_REGISTRY.get(Thread.currentThread());
     final ThreadData threadData = driverData.getThreadRegistry().get(thread);
-    synchronized (threadData) {
+    threadData.lock.lock();
+    try {
       return threadData.getSuspended() != null;
+    } finally {
+      threadData.lock.unlock();
     }
   }
 
@@ -627,6 +656,7 @@ public final class ConTesterDriver {
     private final Map<Thread, ThreadData> threadRegistry = new WeakHashMap<>();
     private final Map<String, Set<Thread>> enabledBreakpoints = new HashMap<>(4);
     private final AtomicInteger threadIdGenerator = new AtomicInteger(1);
+    private final ReentrantLock lock = new ReentrantLock();
 
     private int getNextThreadId() {
       return threadIdGenerator.getAndIncrement();
@@ -646,6 +676,7 @@ public final class ConTesterDriver {
     private Throwable uncaughtThrowable;
     private String breakpointId;
     private final Semaphore semaphore = new Semaphore(0);
+    private final ReentrantLock lock = new ReentrantLock();
 
     Optional<Throwable> getUncaughtThrowable() {
       return Optional.ofNullable(uncaughtThrowable);

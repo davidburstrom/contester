@@ -39,6 +39,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.ReentrantLock;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -385,6 +386,7 @@ class ConTesterDriverTest {
     assertDoesNotThrow(() -> join(thread));
   }
 
+  @SuppressWarnings("PMD.AvoidSynchronizedStatement")
   @Test
   void runUntilBlocked() {
     Object lock = new Object();
@@ -405,6 +407,36 @@ class ConTesterDriverTest {
     runToBreakpoint(thread1, "id");
     runUntilBlockedOrTerminated(thread2);
     assertEquals(Thread.State.BLOCKED, thread2.getState());
+    join(thread1);
+    join(thread2);
+  }
+
+  @Test
+  void runUntilWaiting() {
+    ReentrantLock lock = new ReentrantLock();
+    final Thread thread1 =
+        thread(
+            () -> {
+              lock.lock();
+              try {
+                visitBreakpoint("id");
+              } finally {
+                lock.unlock();
+              }
+            });
+    final Thread thread2 =
+        thread(
+            () -> {
+              lock.lock();
+              try {
+                visitBreakpoint("dummy");
+              } finally {
+                lock.unlock();
+              }
+            });
+    runToBreakpoint(thread1, "id");
+    runUntilBlockedOrTerminated(thread2);
+    assertEquals(Thread.State.WAITING, thread2.getState());
     join(thread1);
     join(thread2);
   }
