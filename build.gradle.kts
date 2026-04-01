@@ -68,6 +68,10 @@ allprojects {
                     options.compilerArgs.addAll(listOf("-Werror", "-Xlint:-options"))
                 }
 
+                project.tasks.named<JavaCompile>("compileTestJava").configure {
+                    options.release = 17
+                }
+
                 spotless {
                     java {
                         googleJavaFormat()
@@ -161,7 +165,7 @@ allprojects {
                     }
 
                     javaLauncher = project.extensions.getByType<JavaToolchainService>().launcherFor {
-                        languageVersion = JavaLanguageVersion.of(11)
+                        languageVersion = JavaLanguageVersion.of(17)
                     }
 
                     /*
