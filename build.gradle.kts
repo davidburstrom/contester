@@ -23,6 +23,7 @@ dependencies {
     "dependencyUpdates"("org.pitest:pitest-junit5-plugin:$pitestJUnit5PluginVersion")
     "dependencyUpdates"("org.pitest:pitest:$pitestMainVersion")
     "dependencyUpdates"("com.pinterest.ktlint:ktlint-bom:$ktlintVersion")
+    "dependencyUpdates"("net.sourceforge.pmd:pmd-core:$pmdVersion")
 }
 
 spotless {
