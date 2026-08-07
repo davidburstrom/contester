@@ -5,5 +5,5 @@ plugins {
 dependencies {
     implementation(project(":breakpoint"))
     testImplementation(project(":driver"))
-    testImplementation("org.junit.jupiter:junit-jupiter:6.0.3")
+    testImplementation("org.junit.jupiter:junit-jupiter:6.1.3")
 }
